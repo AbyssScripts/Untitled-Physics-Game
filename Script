@@ -1,0 +1,26 @@
+
+local Events = {
+	DestroyToy = game.ReplicatedStorage.Menu.DestroyToy
+}
+
+function Destroy(Part)
+	Events.DestroyToy:FireServer(Part)
+end
+
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/RoyalNo0bs/OrionLib/refs/heads/main/Source",true))()
+local Window = OrionLib:MakeWindow({Name = "Untitled Physics Game", HidePremium = false, SaveConfig = true, ConfigFolder = "Data", IntroText = "Untitled Physics Game"})
+
+local Server = Window:MakeTab({
+	Name = "Server",
+	Icon = "rbxassetid://111710592722438",
+	PremiumOnly = false
+})
+
+Server:AddSection({Name = "Destroy Parts"})
+
+Server:AddButton({	
+	Name = "Play Ground",
+	Callback = function()
+		Destroy(workspace.Map.PlayGround)
+	end    
+})
