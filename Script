@@ -43,9 +43,9 @@ Immunity:AddToggle({
 	Default = false,
 	Callback = function(Value)
 		ToggleValues.Immunity.AntiGrab = Value
-		if Value == true then
+		if ToggleValues.Immunity.AntiGrab == true then
 			while ToggleValues.Immunity.AntiGrab == true do
-				game.ReplicatedStorage.GrabEvents.Struggle:FireServer()
+				game.ReplicatedStorage.GrabEvents.SetOwnerNetwork:FireServer(game.Players.LocalPlayer.Character.Torso,game.Players.LocalPlayer.Character.Torso.CFrame)
 				wait()
 			end
 	
