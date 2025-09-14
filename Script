@@ -27,21 +27,18 @@ Server:AddButton({
 		PreFunctions.Destroy(workspace.Map.PlayGround)
 	end    
 })
-
 Server:AddButton({	
-	Name = "Play Ground",
+	Name = "Trees & Cactus",
 	Callback = function()
-		PreFunctions.Destroy(workspace.Map.PlayGround)
+		PreFunctions.Destroy(workspace.TallTrees)
 	end    
 })
-
 Server:AddButton({	
 	Name = "Moss",
 	Callback = function()
 		PreFunctions.Destroy(workspace.Map.Floor1.Layer1)
 	end    
 })
-
 Server:AddButton({	
 	Name = "Dirt",
 	Callback = function()
@@ -52,7 +49,6 @@ Server:AddButton({
 		end
 	end    
 })
-
 Server:AddButton({	
 	Name = "Rocks",
 	Callback = function()
@@ -61,5 +57,18 @@ Server:AddButton({
 				PreFunctions.Destroy(Part)
 			end
 		end
+	end    
+})
+Server:AddButton({	
+	Name = "Map",
+	Callback = function()
+		PreFunctions.Destroy(workspace.Map)
+		PreFunctions.Destroy(workspace.Slots)
+	end    
+})
+Server:AddButton({	
+	Name = "Toys",
+	Callback = function()
+		PreFunctions.Destroy(workspace.Spawners)
 	end    
 })
