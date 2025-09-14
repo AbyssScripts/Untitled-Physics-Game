@@ -48,7 +48,7 @@ Immunity:AddToggle({
 				game.ReplicatedStorage.GrabEvents.SetOwnerNetwork:FireServer(game.Players.LocalPlayer.Character.Torso,game.Players.LocalPlayer.Character.Torso.CFrame)
 				wait()
 			end
-	
+
 		end
 	end    
 })
@@ -104,6 +104,10 @@ Server:AddButton({
 Server:AddButton({	
 	Name = "Break Ragdoll",
 	Callback = function()
-		PreFunctions.Destroy(game.ReplicatedStorage.Ragdoll.RagdollTemplate.Head.BallSocketConstraint)
+		for _, BallSocketConstraint in ipairs(game:GetDescendants()) do
+			if BallSocketConstraint:IsA("BallSocketConstraint") then
+				PreFunctions.Destroy(BallSocketConstraint)
+			end
+		end
 	end    
 })
