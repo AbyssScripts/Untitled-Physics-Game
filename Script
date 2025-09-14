@@ -9,6 +9,12 @@ local PreFunctions = {
 	end,
 }
 
+local DropDownValues = {
+	Server = {
+		MapPart = "PlayGround"
+	}
+}
+
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/RoyalNo0bs/OrionLib/refs/heads/main/Source",true))()
 local Window = OrionLib:MakeWindow({Name = "Untitled Physics Game", HidePremium = false, SaveConfig = true, ConfigFolder = "Data", IntroText = "Untitled Physics Game"})
 
@@ -21,51 +27,45 @@ local Server = Window:MakeTab({
 
 Server:AddSection({Name = "Destroy Parts"})
 
-Server:AddButton({	
-	Name = "Play Ground",
-	Callback = function()
-		PreFunctions.Destroy(workspace.Map.PlayGround)
+Server:AddDropdown({
+	Name = "MapPart",
+	Default = "...",
+	Options ={"Play Ground","Trees & Cactus","Moss","Dirt","Rocks","Everything"},
+	Callback = function(Value)
+		DropDownValues.Server.MapPart = Value
 	end    
 })
 Server:AddButton({	
-	Name = "Trees & Cactus",
+	Name = "Destroy Map Part",
 	Callback = function()
-		PreFunctions.Destroy(workspace.TallTrees)
-	end    
-})
-Server:AddButton({	
-	Name = "Moss",
-	Callback = function()
-		PreFunctions.Destroy(workspace.Map.Floor1.Layer1)
-	end    
-})
-Server:AddButton({	
-	Name = "Dirt",
-	Callback = function()
-		for _, Part in ipairs(workspace.Map.Floor1:GetChildren()) do
-			if Part.Name == "Dirt" then
-				PreFunctions.Destroy(Part)
+		local Value = DropDownValues.Server.MapPart
+		if Value == "Play Ground" then
+			PreFunctions.Destroy(workspace.Map.PlayGround)  
+		elseif Value == "Trees & Cactus" then
+			PreFunctions.Destroy(workspace.TallTrees)
+			PreFunctions.Destroy(workspace.Cactuses)
+		elseif Value == "Moss" then
+			PreFunctions.Destroy(workspace.Map.Floor1.Layer1)
+		elseif Value == "Dirt" then
+			for _, Part in ipairs(workspace.Map.Floor1:GetChildren()) do
+				if Part.Name == "Dirt" then
+					PreFunctions.Destroy(Part)
+				end
 			end
+		elseif Value == "Rocks" then
+			for _, Part in ipairs(workspace.Map.Floor1:GetChildren()) do
+				if Part.Name == "Rock" then
+					PreFunctions.Destroy(Part)
+				end
+			end
+		elseif Value == "Everything" then
+			PreFunctions.Destroy(workspace.Map)
+		elseif Value == "Slots" then
+			PreFunctions.Destroy(workspace.Slots)
 		end
 	end    
 })
-Server:AddButton({	
-	Name = "Rocks",
-	Callback = function()
-		for _, Part in ipairs(workspace.Map.Floor1:GetChildren()) do
-			if Part.Name == "Rock" then
-				PreFunctions.Destroy(Part)
-			end
-		end
-	end    
-})
-Server:AddButton({	
-	Name = "Map",
-	Callback = function()
-		PreFunctions.Destroy(workspace.Map)
-		PreFunctions.Destroy(workspace.Slots)
-	end    
-})
+
 Server:AddButton({	
 	Name = "Toys",
 	Callback = function()
