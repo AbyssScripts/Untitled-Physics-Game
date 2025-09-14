@@ -101,3 +101,9 @@ Server:AddButton({
 		PreFunctions.Destroy(workspace.Spawners)
 	end    
 })
+Server:AddButton({	
+	Name = "Break Ragdoll",
+	Callback = function()
+		PreFunctions.Destroy(game.ReplicatedStorage.Ragdoll.RagdollTemplate.Head.BallSocketConstraint)
+	end    
+})
