@@ -3,9 +3,11 @@ local Events = {
 	DestroyToy = game.ReplicatedStorage.Menu.DestroyToy
 }
 
-function Destroy(Part)
-	Events.DestroyToy:FireServer(Part)
-end
+local PreFunctions = {
+	Destroy = function(Part)
+		Events.DestroyToy:FireServer(Part)
+	end,
+}
 
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/RoyalNo0bs/OrionLib/refs/heads/main/Source",true))()
 local Window = OrionLib:MakeWindow({Name = "Untitled Physics Game", HidePremium = false, SaveConfig = true, ConfigFolder = "Data", IntroText = "Untitled Physics Game"})
@@ -16,11 +18,48 @@ local Server = Window:MakeTab({
 	PremiumOnly = false
 })
 
+
 Server:AddSection({Name = "Destroy Parts"})
 
 Server:AddButton({	
 	Name = "Play Ground",
 	Callback = function()
-		Destroy(workspace.Map.PlayGround)
+		PreFunctions.Destroy(workspace.Map.PlayGround)
+	end    
+})
+
+Server:AddButton({	
+	Name = "Play Ground",
+	Callback = function()
+		PreFunctions.Destroy(workspace.Map.PlayGround)
+	end    
+})
+
+Server:AddButton({	
+	Name = "Moss",
+	Callback = function()
+		PreFunctions.Destroy(workspace.Map.Floor1.Layer1)
+	end    
+})
+
+Server:AddButton({	
+	Name = "Dirt",
+	Callback = function()
+		for _, Part in ipairs(workspace.Map.Floor1:GetChildren()) do
+			if Part.Name == "Dirt" then
+				PreFunctions.Destroy(Part)
+			end
+		end
+	end    
+})
+
+Server:AddButton({	
+	Name = "Rocks",
+	Callback = function()
+		for _, Part in ipairs(workspace.Map.Floor1:GetChildren()) do
+			if Part.Name == "Rock" then
+				PreFunctions.Destroy(Part)
+			end
+		end
 	end    
 })
