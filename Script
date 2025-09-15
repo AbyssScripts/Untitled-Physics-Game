@@ -144,7 +144,7 @@ TargetTab:AddButton({
 		end
 		if chr then
 			for _, p in ipairs(chr:GetDescendants()) do
-				if workspace:IsA("Pants") or workspace:IsA("Shirt") or workspace:IsA("ShirtGraphic") then
+				if p:IsA("Pants") or p:IsA("Shirt") or p:IsA("ShirtGraphic") then
 					PreFunctions.Destroy(p)
 				end
 			end
