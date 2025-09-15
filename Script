@@ -101,6 +101,9 @@ Server:AddButton({
 		PreFunctions.Destroy(workspace.Spawners)
 	end    
 })
+
+Server:AddSection({Name = "Break Stuff"})
+
 Server:AddButton({	
 	Name = "Break Ragdoll",
 	Callback = function()
@@ -109,5 +112,13 @@ Server:AddButton({
 				PreFunctions.Destroy(BallSocketConstraint)
 			end
 		end
+	end    
+})
+
+Server:AddButton({	
+	Name = "Break Lighting",
+	Callback = function()
+		PreFunctions.Destroy(game.Lighting:FindFirstChild("Deep Blue Sky"))
+		PreFunctions.Destroy(game.Lighting.ColorCorrection)
 	end    
 })
