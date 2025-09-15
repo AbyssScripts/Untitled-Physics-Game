@@ -1,3 +1,4 @@
+local plr = game.Players.LocalPlayer
 
 local Events = {
 	DestroyToy = game.ReplicatedStorage.Menu.DestroyToy
@@ -7,9 +8,39 @@ local PreFunctions = {
 	Destroy = function(Part)
 		Events.DestroyToy:FireServer(Part)
 	end,
+	GetPlayers = function(Bool,Bool2)
+		local List = {}
+		for _, Player in ipairs(game.Players:GetPlayers()) do
+			if Player == plr and Bool == true then
+				if Bool2 == true then
+					table.insert(List,Player.Name.."("..Player.DisplayName..")")
+				else
+					table.insert(List,Player.Name)
+				end
+			elseif Player ~= plr then
+				if Bool2 == true then
+					table.insert(List,Player.Name.."("..Player.DisplayName..")")
+				else
+					table.insert(List,Player.Name)
+				end
+			end
+		end
+		return List
+	end,
+	GetPlayerFromName = function(Text)
+		for _, Player in ipairs(game.Players:GetPlayers()) do
+			if Text == Player.Name.."("..Player.DisplayName..")" then
+				return Player
+			end
+		end
+		return nil
+	end
 }
 
 local DropDownValues = {
+	Target = {
+		Player = ""
+	};
 	Server = {
 		MapPart = "PlayGround"
 	}
@@ -24,21 +55,27 @@ local ToggleValues = {
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/RoyalNo0bs/OrionLib/refs/heads/main/Source",true))()
 local Window = OrionLib:MakeWindow({Name = "Untitled Physics Game", HidePremium = false, SaveConfig = true, ConfigFolder = "Data", IntroText = "Untitled Physics Game"})
 
-local Immunity = Window:MakeTab({
+local ImmunityTab = Window:MakeTab({
 	Name = "Immunity",
 	Icon = "rbxassetid://111710592722438",
 	PremiumOnly = false
 })
 
-local Server = Window:MakeTab({
+local TargetTab = Window:MakeTab({
+	Name = "Target",
+	Icon = "rbxassetid://111710592722438",
+	PremiumOnly = false
+})
+
+local ServerTab = Window:MakeTab({
 	Name = "Server",
 	Icon = "rbxassetid://111710592722438",
 	PremiumOnly = false
 })
 
-Immunity:AddSection({Name = "Anti"})
+ImmunityTab:AddSection({Name = "Anti"})
 
-Immunity:AddToggle({
+ImmunityTab:AddToggle({
 	Name = "Anti-Grab",
 	Default = false,
 	Callback = function(Value)
@@ -53,10 +90,37 @@ Immunity:AddToggle({
 	end    
 })
 
+local TargetList_Dropdown = TargetTab:AddDropdown({
+	Name = "Target",
+	Default = "...",
+	Options = PreFunctions.GetPlayers(false,true),
+	Callback = function(Value)
+		if PreFunctions.GetPlayerFromName(Value) == nil then
+			return
+		end
+		DropDownValues.Target.Player = PreFunctions.GetPlayerFromName(Value).Name
+	end    
+})
+ServerTab:AddButton({	
+	Name = "Disable Grab",
+	Callback = function()
+		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
+			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character.GrabbingScript)  
+		end
+	end    
+})
+ServerTab:AddButton({	
+	Name = "Delete Character",
+	Callback = function()
+		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
+			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character.GrabbingScript)  
+		end
+	end    
+})
 
-Server:AddSection({Name = "Destroy Parts"})
+ServerTab:AddSection({Name = "Destroy Parts"})
 
-Server:AddDropdown({
+ServerTab:AddDropdown({
 	Name = "MapPart",
 	Default = "...",
 	Options ={"Play Ground","Trees & Cactus","Moss","Dirt","Rocks","Everything"},
@@ -64,7 +128,7 @@ Server:AddDropdown({
 		DropDownValues.Server.MapPart = Value
 	end    
 })
-Server:AddButton({	
+ServerTab:AddButton({	
 	Name = "Destroy Map Part",
 	Callback = function()
 		local Value = DropDownValues.Server.MapPart
@@ -95,16 +159,16 @@ Server:AddButton({
 	end    
 })
 
-Server:AddButton({	
+ServerTab:AddButton({	
 	Name = "Destroy Toys",
 	Callback = function()
 		PreFunctions.Destroy(workspace.Spawners)
 	end    
 })
 
-Server:AddSection({Name = "Break Stuff"})
+ServerTab:AddSection({Name = "Break Stuff"})
 
-Server:AddButton({	
+ServerTab:AddButton({	
 	Name = "Break Ragdoll",
 	Callback = function()
 		for _, BallSocketConstraint in ipairs(game:GetDescendants()) do
@@ -115,10 +179,17 @@ Server:AddButton({
 	end    
 })
 
-Server:AddButton({	
+ServerTab:AddButton({	
 	Name = "Break Lighting",
 	Callback = function()
 		PreFunctions.Destroy(game.Lighting:FindFirstChild("Deep Blue Sky"))
 		PreFunctions.Destroy(game.Lighting.ColorCorrection)
 	end    
 })
+
+game.Players.PlayerAdded:Connect(function(player)
+	TargetList_Dropdown:Refresh(PreFunctions.GetPlayers(false,true),true)
+end)
+game.Players.PlayerRemoving:Connect(function(player)
+	TargetList_Dropdown:Refresh(PreFunctions.GetPlayers(false,true),true)
+end)
