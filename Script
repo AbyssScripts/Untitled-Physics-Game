@@ -93,7 +93,7 @@ ImmunityTab:AddToggle({
 local TargetList_Dropdown = TargetTab:AddDropdown({
 	Name = "Target",
 	Default = "...",
-	Options = PreFunctions.GetPlayers(false,true),
+	Options = PreFunctions.GetPlayers(true,true),
 	Callback = function(Value)
 		if PreFunctions.GetPlayerFromName(Value) == nil then
 			return
@@ -117,7 +117,7 @@ TargetTab:AddButton({
 	Name = "Kill",
 	Callback = function()
 		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
-			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character.Humanoid)  
+			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character.Torso)  
 		end
 	end    
 })
