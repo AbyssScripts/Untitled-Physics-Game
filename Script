@@ -101,6 +101,9 @@ local TargetList_Dropdown = TargetTab:AddDropdown({
 		DropDownValues.Target.Player = PreFunctions.GetPlayerFromName(Value).Name
 	end    
 })
+
+TargetTab:AddSection({Name = "Annoy"})
+
 TargetTab:AddButton({	
 	Name = "Disable Grab",
 	Callback = function()
@@ -109,14 +112,17 @@ TargetTab:AddButton({
 		end
 	end    
 })
+
 TargetTab:AddButton({	
-	Name = "Delete Character",
+	Name = "Kill",
 	Callback = function()
 		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
-			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character)  
+			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character.Humanoid)  
 		end
 	end    
 })
+
+TargetTab:AddSection({Name = "Remove Items"})
 
 TargetTab:AddButton({	
 	Name = "Remove Accessories",
@@ -148,6 +154,14 @@ TargetTab:AddButton({
 					PreFunctions.Destroy(p)
 				end
 			end
+		end
+	end    
+})
+TargetTab:AddButton({	
+	Name = '<font color="#ffffff">Remove Character </font> <font color="#ff0000">[PERMAMANT]</font>',
+	Callback = function()
+		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
+			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character)  
 		end
 	end    
 })
