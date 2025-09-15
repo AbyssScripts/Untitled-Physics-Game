@@ -118,6 +118,40 @@ TargetTab:AddButton({
 	end    
 })
 
+TargetTab:AddButton({	
+	Name = "Remove Accessories",
+	Callback = function()
+		local chr = nil
+		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
+			chr = game.Players:FindFirstChild(DropDownValues.Target.Player).Character
+		end
+		if chr then
+			for _, Accessory in ipairs(chr:GetDescendants()) do
+				if Accessory:IsA("Accessory") then
+					PreFunctions.Destroy(Accessory)
+				end
+			end
+		end
+	end    
+})
+
+TargetTab:AddButton({	
+	Name = "Remove Cloths",
+	Callback = function()
+		local chr = nil
+		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
+			chr = game.Players:FindFirstChild(DropDownValues.Target.Player).Character
+		end
+		if chr then
+			for _, p in ipairs(chr:GetDescendants()) do
+				if workspace:IsA("Pants") or workspace:IsA("Shirt") or workspace:IsA("ShirtGraphic") then
+					PreFunctions.Destroy(p)
+				end
+			end
+		end
+	end    
+})
+
 ServerTab:AddSection({Name = "Destroy Parts"})
 
 ServerTab:AddDropdown({
