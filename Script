@@ -101,7 +101,7 @@ local TargetList_Dropdown = TargetTab:AddDropdown({
 		DropDownValues.Target.Player = PreFunctions.GetPlayerFromName(Value).Name
 	end    
 })
-ServerTab:AddButton({	
+TargetTab:AddButton({	
 	Name = "Disable Grab",
 	Callback = function()
 		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
@@ -109,11 +109,11 @@ ServerTab:AddButton({
 		end
 	end    
 })
-ServerTab:AddButton({	
+TargetTab:AddButton({	
 	Name = "Delete Character",
 	Callback = function()
 		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
-			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character.GrabbingScript)  
+			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character)  
 		end
 	end    
 })
