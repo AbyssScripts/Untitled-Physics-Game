@@ -128,6 +128,12 @@ TargetTab:AddButton({
 	Callback = function()
 		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
 			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player))  
+			OrionLib:MakeNotification({
+				Name = "Kicked"..DropDownValues.Target.Player,
+				Content = "This player was successfully kicked from the server",
+				Image = "rbxassetid://11419701598",
+				Time = 3
+			})
 		end
 	end    
 })
@@ -179,30 +185,38 @@ TargetTab:AddButton({
 TargetTab:AddSection({Name = "Target Others"})
 
 TargetTab:AddButton({	
-	Name = '<font color="#ffffff">Disable Grab </font> <font color="#ff0000">[OTHERS]</font>',
+	Name = '<font color="#ffffff">Disable Grab </font> <font color="#2bff32">[OTHERS]</font>',
 	Callback = function()
 		for _, p in ipairs(game.Players:GetPlayers()) do
-			if p.Character and p.Character:FindFirstChild("GrabbingScript") then
+			if p ~= plr and p.Character and p.Character:FindFirstChild("GrabbingScript") then
 				PreFunctions.Destroy(p.Character.GrabbingScript)  
 			end
 		end
 	end    
 })
 TargetTab:AddButton({	
-	Name = '<font color="#ffffff">kill </font> <font color="#ff0000">[OTHERS]</font>',
+	Name = '<font color="#ffffff">kill </font> <font color="#2bff32">[OTHERS]</font>',
 	Callback = function()
 		for _, p in ipairs(game.Players:GetPlayers()) do
-			if p.Character and p.Character:FindFirstChild("Torso") then
+			if p ~= plr and p.Character and p.Character:FindFirstChild("Torso") then
 				PreFunctions.Destroy(p.Character.Torso)  
 			end
 		end
 	end    
 })
 TargetTab:AddButton({	
-	Name = '<font color="#ffffff">Kick </font> <font color="#ff0000">[OTHERS]</font>',
+	Name = '<font color="#ffffff">Kick </font> <font color="#2bff32">[OTHERS]</font>',
 	Callback = function()
 		for _, p in ipairs(game.Players:GetPlayers()) do
+			if p ~= plr then
 			PreFunctions.Destroy(p)  
+				OrionLib:MakeNotification({
+					Name = "Kicked"..p.Name,
+					Content = "This player was successfully kicked from the server",
+					Image = "rbxassetid://11419701598",
+					Time = 3
+				})
+			end
 		end
 	end    
 })
