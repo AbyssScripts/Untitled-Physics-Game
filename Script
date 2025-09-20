@@ -90,6 +90,8 @@ ImmunityTab:AddToggle({
 	end    
 })
 
+--TARGET TAB
+
 local TargetList_Dropdown = TargetTab:AddDropdown({
 	Name = "Target",
 	Default = "...",
@@ -118,6 +120,14 @@ TargetTab:AddButton({
 	Callback = function()
 		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
 			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player).Character.Torso)  
+		end
+	end    
+})
+TargetTab:AddButton({	
+	Name = "Kick",
+	Callback = function()
+		if game.Players:FindFirstChild(DropDownValues.Target.Player) and game.Players:FindFirstChild(DropDownValues.Target.Player).Character then
+			PreFunctions.Destroy(game.Players:FindFirstChild(DropDownValues.Target.Player))  
 		end
 	end    
 })
@@ -165,6 +175,39 @@ TargetTab:AddButton({
 		end
 	end    
 })
+
+TargetTab:AddSection({Name = "Target Others"})
+
+TargetTab:AddButton({	
+	Name = '<font color="#ffffff">Disable Grab </font> <font color="#ff0000">[OTHERS]</font>',
+	Callback = function()
+		for _, p in ipairs(game.Players:GetPlayers()) do
+			if p.Character and p.Character:FindFirstChild("GrabbingScript") then
+				PreFunctions.Destroy(p.Character.GrabbingScript)  
+			end
+		end
+	end    
+})
+TargetTab:AddButton({	
+	Name = '<font color="#ffffff">kill </font> <font color="#ff0000">[OTHERS]</font>',
+	Callback = function()
+		for _, p in ipairs(game.Players:GetPlayers()) do
+			if p.Character and p.Character:FindFirstChild("Torso") then
+				PreFunctions.Destroy(p.Character.Torso)  
+			end
+		end
+	end    
+})
+TargetTab:AddButton({	
+	Name = '<font color="#ffffff">Kick </font> <font color="#ff0000">[OTHERS]</font>',
+	Callback = function()
+		for _, p in ipairs(game.Players:GetPlayers()) do
+			PreFunctions.Destroy(p)  
+		end
+	end    
+})
+
+--SERVER TAB
 
 ServerTab:AddSection({Name = "Destroy Parts"})
 
@@ -226,7 +269,6 @@ ServerTab:AddButton({
 		end
 	end    
 })
-
 ServerTab:AddButton({	
 	Name = "Break Lighting",
 	Callback = function()
