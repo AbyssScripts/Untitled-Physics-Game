@@ -114,11 +114,11 @@ PlayerTab:AddToggle({
 	Default = true,
 	Callback = function(Value)
 		if Value then
-			plr.CameraMaxZoomDistance = 1000000
-			plr.CameraMode = Enum.CameraMode.Classic
-		else
 			plr.CameraMaxZoomDistance = 0.5
 			plr.CameraMode = Enum.CameraMode.LockFirstPerson
+		else
+			plr.CameraMaxZoomDistance = 1000000
+			plr.CameraMode = Enum.CameraMode.Classic
 		end
 	end    
 })
