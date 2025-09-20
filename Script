@@ -216,6 +216,7 @@ TargetTab:AddButton({
 					Image = "rbxassetid://11419701598",
 					Time = 3
 				})
+				wait(0.01)
 			end
 		end
 	end    
