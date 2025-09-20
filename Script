@@ -46,7 +46,16 @@ local DropDownValues = {
 	}
 }
 
+local SliderValues = {
+	Player = {
+		Speed = "16"
+	};
+}
+
 local ToggleValues = {
+	Player = {
+		WalkSpeed = false
+	};
 	Immunity = {
 		AntiGrab = false
 	}
@@ -54,6 +63,12 @@ local ToggleValues = {
 
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/RoyalNo0bs/OrionLib/refs/heads/main/Source",true))()
 local Window = OrionLib:MakeWindow({Name = "Untitled Physics Game", HidePremium = false, SaveConfig = true, ConfigFolder = "Data", IntroText = "Untitled Physics Game"})
+
+local PlayerTab = Window:MakeTab({
+	Name = "Player",
+	Icon = "rbxassetid://111710592722438",
+	PremiumOnly = false
+})
 
 local ImmunityTab = Window:MakeTab({
 	Name = "Immunity",
@@ -71,6 +86,41 @@ local ServerTab = Window:MakeTab({
 	Name = "Server",
 	Icon = "rbxassetid://111710592722438",
 	PremiumOnly = false
+})
+
+PlayerTab:AddToggle({
+	Name = "WalkSpeed",
+	Default = true,
+	Callback = function(Value)
+		ToggleValues.Player.WalkSpeed = Value
+	end    
+})
+
+PlayerTab:AddSlider({
+	Name = "Speed",
+	Min = 16,
+	Max = 200,
+	Default = 16,
+	Color = Color3.fromRGB(255, 255, 255),
+	Increment = 1,
+	ValueName = "Speed",
+	Callback = function(Value)
+		SliderValues.Player.Speed = Value
+	end    
+})
+
+PlayerTab:AddToggle({
+	Name = "Locked Camera",
+	Default = true,
+	Callback = function(Value)
+		if Value then
+			plr.CameraMaxZoomDistance = 1000000
+			plr.CameraMode = Enum.CameraMode.Classic
+		else
+			plr.CameraMaxZoomDistance = 0.5
+			plr.CameraMode = Enum.CameraMode.LockFirstPerson
+		end
+	end    
 })
 
 ImmunityTab:AddSection({Name = "Anti"})
@@ -297,4 +347,14 @@ game.Players.PlayerAdded:Connect(function(player)
 end)
 game.Players.PlayerRemoving:Connect(function(player)
 	TargetList_Dropdown:Refresh(PreFunctions.GetPlayers(false,true),true)
+end)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+	if plr.Character and plr.Character:FindFirstChild("Humanoid") then
+		if ToggleValues.Player.WalkSpeed == true then
+			plr.Character.Humanoid.WalkSpeed = SliderValues.Player.Speed
+		else
+			plr.Character.Humanoid.WalkSpeed = 16
+		end
+	end
 end)
